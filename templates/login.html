@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Integrity Monitoring System - Admin Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- For icons -->
+    <style>
+        body {
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            max-width: 400px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .system-title {
+            font-weight: 700;
+            color: #0056b3;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .admin-login-title {
+            font-size: 1.25em;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #f8f9fa;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+        .developer-credit {
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: normal;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .input-group-text {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="system-title">Real-Time File Integrity Monitoring System</div>
+        <h2 class="admin-login-title">Administrator Login</h2>
+        
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="toggle-password"><i class="fas fa-eye"></i></span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <p class="text-muted">Don't have an account? <a href="/register" class="text-primary">Register</a></p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger mt-3">
+                    {% for message in messages %}
+                        <p class="mb-0">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 File Integrity Monitoring. All Rights Reserved.</p>
+        <p class="developer-credit">Developed by <strong>Eliud Simon Kikota</strong></p>
+    </footer>
+
+    <script>
+        // Toggle password visibility
+        document.getElementById("toggle-password").addEventListener("click", function() {
+            var passwordField = document.getElementById("password");
+            var passwordIcon = this.querySelector("i");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordIcon.classList.remove("fa-eye");
+                passwordIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                passwordIcon.classList.remove("fa-eye-slash");
+                passwordIcon.classList.add("fa-eye");
+            }
+        });
+    </script>
+</body>
+</html>

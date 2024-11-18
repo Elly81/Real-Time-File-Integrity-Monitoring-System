@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata and CSS Link -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="File Integrity Monitoring application to ensure the security and integrity of critical files.">
+    <meta name="keywords" content="File Integrity, Monitoring, Security, Real-Time Alerts, Data Protection">
+    <meta name="author" content="Your Company or Name">
+    <title>About - File Integrity Monitoring</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+        .feature-list, .technology-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li, .technology-list li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .contact-info a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #f8f9fa;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">File Integrity Monitoring</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/monitored-files">Monitored Files</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <div class="container mt-5">
+        <h1 class="mb-4">About File Integrity Monitoring</h1>
+
+        <p>
+            Our File Integrity Monitoring (FIM) system is designed to ensure the security and integrity of critical files by detecting any unauthorized changes. This tool is essential for organizations and individuals who want to protect sensitive data from tampering or corruption. With real-time monitoring, immediate alerts, and detailed reports, you can take swift action when necessary to safeguard your system.
+        </p>
+
+        <!-- Key Features Section -->
+        <section class="mt-4">
+            <h2 class="section-title">Key Features</h2>
+            <ul class="feature-list">
+                <li><strong>Real-time Monitoring:</strong> Continuously monitors files to detect any unauthorized or unexpected modifications.</li>
+                <li><strong>Instant Alerts:</strong> Sends automatic notifications whenever a change is detected, ensuring that users are immediately informed of potential threats.</li>
+                <li><strong>Detailed Change Logs:</strong> Maintains an accurate record of all file changes, allowing for detailed auditing and historical tracking.</li>
+                <li><strong>Secure File Protection:</strong> Monitors critical system files to protect against accidental or malicious alterations.</li>
+                <li><strong>Comprehensive Help & Support:</strong> Provides user-friendly documentation and customer support for troubleshooting and optimal setup.</li>
+            </ul>
+        </section>
+
+        <!-- Technologies Used Section -->
+        <section class="mt-4">
+            <h2 class="section-title">Technologies Used</h2>
+            <p>Our File Integrity Monitoring system is built using industry-leading technologies to ensure reliability, security, and performance:</p>
+            <ul class="technology-list">
+                <li><strong>Python (Flask):</strong> A powerful backend framework used for building the server-side logic and APIs.</li>
+                <li><strong>PostgreSQL:</strong> A robust, open-source relational database used to manage user authentication and store secure login credentials.</li>
+                <li><strong>HTML5, CSS3, JavaScript:</strong> Used for crafting an intuitive, responsive, and interactive user interface.</li>
+                <li><strong>Bootstrap:</strong> A front-end framework that ensures the app is mobile-responsive and optimized for various devices.</li>
+            </ul>
+        </section>
+
+        <!-- Contact Information Section -->
+        <section class="mt-4 contact-info">
+            <h2 class="section-title">Contact Us</h2>
+            <p>If you have any questions, need technical support, or would like to learn more about the system, please reach out to our support team:</p>
+            <p>Email: <a href="mailto:kikotaeliud@gmail.com">kikotaeliud@gmail.com</a></p>
+            <p>We are here to help you ensure the integrity of your critical files.</p>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer mt-5">
+            <p>&copy; 2024 File Integrity Monitoring. All Rights Reserved.</p>
+            <p class="developer-credit">Developed by <strong>Eliud Simon Kikota</strong></p>
+        </footer>
+        <style>
+            .developer-credit {
+                font-size: 1.1rem; /* Increase the font size */
+                font-weight: normal; /* Ensure it’s not too bold */
+                color: #333; /* A slightly darker color for visibility */
+                text-align: center; /* Center the text */
+                margin-top: 10px; /* Space between the copyright and developer credit */
+            }
+        </style>
+    </div>
+
+    <!-- JavaScript for Logout Functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // Logout functionality
+        $('#logout').click(function () {
+            $.post('/logout', function() {
+                alert('You have been logged out.');
+                window.location.href = '/'; // Redirect to home after logout
+            }).fail(function() {
+                alert('Logout failed. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

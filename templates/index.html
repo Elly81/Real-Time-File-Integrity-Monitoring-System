@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Integrity Monitoring</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .dark-theme {
+            background-color: #343a40;
+            color: white;
+        }
+        .dark-theme .list-group-item {
+            background-color: #495057;
+            color: white;
+        }
+        .dark-theme .navbar {
+            background-color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">File Integrity Monitoring</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/monitored-files">Monitored Files</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="logout">Logout</a></li>
+            </ul>
+            <button class="btn btn-outline-secondary my-2 my-sm-0" id="theme-toggle">Toggle Theme</button>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h1 class="text-center">Real-Time File Integrity Monitoring System</h1>
+        <div class="text-center">
+            <div class="form-group">
+                <label for="sub-directory-input" class="font-weight-bold">Enter Subdirectory Name:</label>
+                <input type="text" id="sub-directory-input" class="form-control" placeholder="Enter subdirectory name" />
+            </div>
+            <button class="btn btn-info" id="start-monitoring">Start Monitoring</button>
+            <button class="btn btn-primary" id="download-report">Download Report</button>
+        </div>
+        
+        <div class="mt-4">
+            <h3 class="text-center">Event Log</h3>
+            <div class="form-group text-center">
+                <input type="text" id="search-input" class="form-control mb-2" placeholder="Search Events..." />
+            </div>
+            <div class="text-center mb-3">
+                <label><input type="checkbox" class="event-filter" value="created" checked> Created</label>
+                <label><input type="checkbox" class="event-filter" value="modified" checked> Modified</label>
+                <label><input type="checkbox" class="event-filter" value="deleted" checked> Deleted</label>
+                <label><input type="checkbox" class="event-filter" value="renamed" checked> Renamed</label>
+            </div>
+            <ul id="event-log" class="list-group"></ul>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let eventsData = []; // Array to hold all events
+
+            $('#start-monitoring').click(function () {
+                const subDirectory = $('#sub-directory-input').val().trim();
+
+                if (!subDirectory) {
+                    alert('Please enter a valid subdirectory name.');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/start-monitoring',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ sub_directory: subDirectory }),
+                    success: function (response) {
+                        alert(response.message);
+                        fetchEvents();  // Start fetching events after starting monitoring
+                    },
+                    error: function (error) {
+                        alert('Error: ' + error.responseJSON.error);
+                    }
+                });
+            });
+
+            function fetchEvents() {
+                setInterval(function () {
+                    $.get('/api/events', function (events) {
+                        eventsData = events; // Store fetched events in the global array
+                        updateEventLog(eventsData); // Update the event log display
+                    });
+                }, 2000); // Fetch events every 2 seconds
+            }
+
+            function updateEventLog(events) {
+                const eventLog = $('#event-log');
+                eventLog.empty(); // Clear the previous events
+
+                if (events.length === 0) {
+                    eventLog.append('<li class="list-group-item">No new events.</li>');
+                } else {
+                    const selectedFilters = $('.event-filter:checked').map(function() {
+                        return this.value;
+                    }).get();
+                    
+                    const filteredEvents = events.filter(event => {
+                        return selectedFilters.some(filter => event.message.toLowerCase().includes(filter));
+                    });
+
+                    filteredEvents.forEach(event => {
+                        const timestamp = new Date(event.timestamp);
+                        const formattedTime = timestamp.toLocaleString();
+                        eventLog.append(`<li class="list-group-item">${event.message} <small class="text-muted">(${formattedTime})</small></li>`);
+                    });
+
+                    if (filteredEvents.length === 0) {
+                        eventLog.append('<li class="list-group-item">No matching events.</li>');
+                    }
+                }
+            }
+
+            // Filter function for search input
+            $('#search-input').on('keyup', function () {
+                const searchTerm = $(this).val().toLowerCase();
+                const selectedFilters = $('.event-filter:checked').map(function() {
+                    return this.value;
+                }).get();
+                
+                const filteredEvents = eventsData.filter(event => {
+                    return selectedFilters.some(filter => event.message.toLowerCase().includes(filter)) &&
+                           event.message.toLowerCase().includes(searchTerm);
+                });
+                updateEventLog(filteredEvents); // Update the event log display with filtered events
+            });
+
+            // Event listener for filtering checkboxes
+            $('.event-filter').on('change', function () {
+                updateEventLog(eventsData); // Update the event log display when filter is changed
+            });
+
+            $('#download-report').click(function () {
+                window.location.href = '/api/download-report';
+            });
+
+            $('#theme-toggle').click(function () {
+                $('body').toggleClass('dark-theme');
+                $('.navbar').toggleClass('navbar-light bg-light');
+            });
+
+            $('#logout').click(function () {
+                $.post('/logout', function() {
+                    alert('You have been logged out.');
+                    window.location.href = '/'; // Redirect to home after logout
+                }).fail(function() {
+                    alert('Logout failed. Please try again.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
