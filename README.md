@@ -4,11 +4,11 @@ A Real-Time File Integrity Monitoring System designed to detect and alert on una
 This project is a Python-based Real-Time File Integrity Monitoring System that tracks changes to files and directories within a specified path. By leveraging cryptographic hashing (SHA-256) and file system event monitoring, the system detects unauthorized changes, additions, deletions, or renames in real time and provides alerts for integrity violations.
 Features
 
- Real-Time Monitoring: Automatically detects file creation, modification, deletion, and renaming events.
- Integrity Checks: Uses SHA-256 cryptographic hashing to verify file integrity.
- Customizable Monitoring: Users can specify the subdirectory within a base directory to monitor.
- User-Friendly Alerts: Provides instant notifications of any detected changes or integrity violations.
- Robust Error Handling: Gracefully handles inaccessible files due to permission issues or file absence.
+ # Real-Time Monitoring: Automatically detects file creation, modification, deletion, and renaming events.
+ # Integrity Checks: Uses SHA-256 cryptographic hashing to verify file integrity.
+ # Customizable Monitoring: Users can specify the subdirectory within a base directory to monitor.
+ # User-Friendly Alerts: Provides instant notifications of any detected changes or integrity violations.
+ # Robust Error Handling: Gracefully handles inaccessible files due to permission issues or file absence.
 
  Technologies Used
  Python (Flask) - A powerful backend framework used for building the server-side logic and APIs.
